@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 
 class App extends Component {
   state = {
   persons: [
     { id:"assas", name: "Joe", age:"28"},
-    { id:"dsdsd", name: "Matt", age:"31"}
+    { id:"dsdsd", name: "Matt", age:"31"},
+    { id:"ledeg", name: "Jasmin", age:"48"}
   ],
   otherState: "Some other value",
   showPersons: false
@@ -43,11 +45,16 @@ class App extends Component {
 
   render () {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '10x solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     }
 
     let persons = null;
@@ -66,13 +73,26 @@ class App extends Component {
           })}
         </div>
       );
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      };
     };
 
+    let styling = [];
+
+    if (this.state.persons.length <= 2)
+      styling.push('red')
+
+    if (this.state.persons.length <= 1)
+      styling.push('bold')
 
     return (
+      <StyleRoot>
       <div className="App">
         <hi>Hi, I'm a react app</hi>
-        <p>This is really working!</p>
+        <p className={styling.join(' ')}>This is really working!</p>
         <button 
           style={style}
           onClick={this.togglePersonsHandler}>Toggle Name
@@ -80,7 +100,8 @@ class App extends Component {
         
         {persons}
 
-      </div>    
+      </div>
+      </StyleRoot>  
     );
   };
 
@@ -89,7 +110,7 @@ class App extends Component {
   
 
 // Makes the App class default when importing it somewhere else
-export default App;
+export default Radium(App);
 
 /*
 const App = props => {
