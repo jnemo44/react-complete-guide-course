@@ -1,17 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Person from './Person/Person';
 
-const persons = (props) => {
-    return props.persons.map((person, index) => {
-        return <Person
-          click={() => props.clicked(index)} 
-          name={person.name}  
-          age={person.age}
-          key={person.id}
-          changed={(event) => props.changed(person.id, event)}
-          />
-    } );
-};
+class Persons extends Component {
+    //static getDerivedStateFromProps(props,state) {
+    //    console.log('[Persons.js] getDerivedStateFromProps');
+    //    return state;
+    //}
 
-export default persons;
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[Persons.js] shouldComponentUpdate');
+        return true;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('[Persons.js] getSnapshotBeforeUpdate');
+        return null;
+    }
+
+    componentDidUpdate() {
+        console.log('[Persons.js] componentDidUpdate');
+    }
+
+    render() {
+        console.log('[Person.js] rendering...');
+        return this.props.persons.map((person, index) => {
+            return (
+            <Person
+                click={() => this.props.clicked(index)} 
+                name={person.name}  
+                age={person.age}
+                key={person.id}
+                changed={(event) => this.props.changed(person.id, event)}
+            />
+            );
+        } );
+
+    }
+
+}
+
+export default Persons;
